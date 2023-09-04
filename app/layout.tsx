@@ -9,12 +9,12 @@ import { SiteBlob } from "@/components/site-blob"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 
-// sets the title, description of the website using the site.ts file located in the config folder
+/** sets the title, description of the website using the site.ts file located in the config folder */
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
   icons: {
-    icon: "/favicon.ico", // gets the favicon.ico file from the public folder
+    icon: "/favicon.ico" /** gets the favicon.ico file from the public folder */,
   },
 }
 
@@ -33,9 +33,14 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <div className="relative flex min-h-screen flex-col">
-            <div className="flex-1">{children}</div>
-          </div>
+          <Providers>
+            <div className="relative flex min-h-screen flex-col">
+              <SiteHeader />
+              <SiteBlob />
+              <div className="flex-1">{children}</div>
+              <SiteFooter />
+            </div>
+          </Providers>
         </body>
       </html>
     </>
