@@ -9,15 +9,25 @@ import { ProductFilters } from "@/components/product-filters"
 import { ProductGrid } from "@/components/product-grid"
 import { ProductSort } from "@/components/product-sort"
 
-interface Props {}
+interface Props {
+  searchParams: {
+    date?: string
+    price?: string
+  }
+}
 
-export default async function Page() {
+export default async function Page({ searchParams }: Props) {
   // adds the data created in the inventory.ts file in the config folder to populate the items in sanity studio using the seed.ts file in the lib folder
   // await seedSanityData()
 
+  const { date = "desc", price } = searchParams
+  const priceOrder = price ? ` | order(price ${price}) ` : ""
+  const dateOrder = date ? ` | order(_createdAt ${date}) ` : ""
+  const order = `${priceOrder}${dateOrder}`
+
   // fetches the items from the sanity studio
   const products = await client.fetch<SanityProduct[]>(
-    groq`*[_type == 'product']{
+    groq`*[_type == 'product'] ${order} {
       _id,
       _createdAt,
       name,
