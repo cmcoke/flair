@@ -19,8 +19,7 @@ export function CartSummary() {
   const shippingAmount = cartCount! > 0 ? 500 : 0
   const totalAmount = totalPrice! + shippingAmount
 
-  async function onCheckout(event: MouseEvent) {
-    event.preventDefault()
+  async function onCheckout() {
     setLoading(true)
     const response = await fetch("/api/checkout", {
       method: "POST",
@@ -65,11 +64,7 @@ export function CartSummary() {
       </dl>
 
       <div className="mt-6">
-        <Button
-          onClick={(event) => onCheckout(event)}
-          className="w-full"
-          disabled={isDisabled}
-        >
+        <Button onClick={onCheckout} className="w-full" disabled={isDisabled}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isLoading ? "Loading" : "Checkout"}
         </Button>
