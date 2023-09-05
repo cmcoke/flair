@@ -13,6 +13,9 @@ interface Props {
   searchParams: {
     date?: string
     price?: string
+    color?: string
+    category?: string
+    size?: string
   }
 }
 
@@ -20,14 +23,20 @@ export default async function Page({ searchParams }: Props) {
   // adds the data created in the inventory.ts file in the config folder to populate the items in sanity studio using the seed.ts file in the lib folder
   // await seedSanityData()
 
-  const { date = "desc", price } = searchParams
+  const { date = "desc", price, color, category, size } = searchParams
   const priceOrder = price ? ` | order(price ${price}) ` : ""
   const dateOrder = date ? ` | order(_createdAt ${date}) ` : ""
   const order = `${priceOrder}${dateOrder}`
 
+  const productFilter = `_type == 'product'`
+  const colorFilter = color ? `&& "${color}" in colors` : ""
+  const categoryFilter = category ? `&& "${category}" in categories` : ""
+  const sizeFilter = size ? `&& "${size}" in sizes` : ""
+  const filter = `*[${productFilter}${colorFilter}${categoryFilter}${sizeFilter}]`
+
   // fetches the items from the sanity studio
   const products = await client.fetch<SanityProduct[]>(
-    groq`*[_type == 'product'] ${order} {
+    groq`${filter} ${order} {
       _id,
       _createdAt,
       name,
