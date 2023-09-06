@@ -33,7 +33,7 @@ export function ProductSort() {
     <div className="flex items-center">
       {/* onValueChange={(value) => router.replace(value)} -- reorders the items based on 'Newest', 'Price, low to high' or 'Price, high to low' and changes the url based on their respected values Ex. /?date=desc when choosing 'Newest' */}
       <Select onValueChange={(value) => router.replace(value)}>
-        <SelectTrigger className="sm:w-[180px]">
+        <SelectTrigger aria-label="Sort products by" className="sm:w-[180px]">
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>
