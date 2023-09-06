@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { MouseEvent, useState } from "react"
 import { Loader2 } from "lucide-react"
 import { formatCurrencyString, useShoppingCart } from "use-shopping-cart"
 
@@ -19,7 +19,8 @@ export function CartSummary() {
   const shippingAmount = cartCount! > 0 ? 500 : 0
   const totalAmount = totalPrice! + shippingAmount
 
-  async function onCheckout() {
+  async function onCheckout(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
     setLoading(true)
     const response = await fetch("/api/checkout", {
       method: "POST",
@@ -64,7 +65,11 @@ export function CartSummary() {
       </dl>
 
       <div className="mt-6">
-        <Button onClick={onCheckout} className="w-full" disabled={isDisabled}>
+        <Button
+          onClick={(e) => onCheckout(e)}
+          className="w-full"
+          disabled={isDisabled}
+        >
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isLoading ? "Loading" : "Checkout"}
         </Button>

@@ -25,7 +25,7 @@ export function Providers({ children }: Props) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <Toaster />
         {children}
-        <TailwindIndicator />
+        {/* <TailwindIndicator /> */}
       </ThemeProvider>
     </CartProvider>
   )
